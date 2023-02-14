@@ -13,6 +13,18 @@ Follow Ashish's video, you can setup some best practices below:
 - [x] Create an Organization unit
 
 ## Homeworks
+### 3. Create Admin user
+- Go to IAM > Users > Create user
+  - Choose [Enable console access], you should use console often.
+  - Keep default for anything else
+- Add user to a group
+  - If you do not have a group yet, create one. Click [Create group]
+  - Give it a name like `Administrator`
+  - Add `AdministratorAccess` IAM policy to created group.
+- Save your credential information at some where safe.
+- Try to login into the console using that credential information
+  - When first create, you will need to change your password (this setting can be enable/disable when you create the user)
+
 ### 4. Using AWS Cloud Shell
 - Click on this icon to go to Cloud shell
 ![](img/week0_20230215054252.png)
@@ -26,4 +38,38 @@ Follow Ashish's video, you can setup some best practices below:
   - In case you do not know how to use AWS CLI, [this reference](https://docs.aws.amazon.com/cli/latest/) from AWS will help.
     - Ex: aws s3 ls
 
-### 5. Create billing alarm
+### 7. Install AWS CLI
+- Install AWS CLI on my local computer (MacOS)
+```
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+```
+- Check the AWS version
+```
+aws --version
+aws-cli/2.9.23 Python/3.9.11 Darwin/22.3.0 exe/x86_64 prompt/off
+```
+- Go ahead, and configure my aws credential profile for this bootcamp
+```
+aws configure
+AWS Access Key ID [None]: AIDAWIRQ******
+AWS Secret Access Key [None]: tJBNH*******
+Default region name [None]: ap-northeast-1
+Default output format [None]: json
+```
+
+### 8. Create a budget, billing Alarm alerts
+- Go to your account (top right menu) > Billing Dashboard > Budgets
+- Click `Create budget` button
+- Choose Using a template
+- Create 2 budgets for this bootcamp
+  - one Zero spend budget, to inform that any service still running.
+  - one Monthly cost budget to set my spending limitation. Mine is $100
+![](img/week0_20230215063944.png)
+- Create 1 custom budget for experimence
+  - Choose [Customize] > [Usage budget]
+  - Choost Create alert when using > 80% of the threshold
+  - Ex: you set the usage budget is 2000 Hours for EC2 service, then 80% mean 1600 Hours
+![](img/week0_20230215064936.png)
+
+
