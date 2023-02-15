@@ -4,7 +4,7 @@
 
 - [x] Week 0 – Live Streamed Video Session
 - [x] Week 0 – Chirag’s Spend Considerations
-- [ ] Week 0 – Ashish’s Security Considerations
+- [x] Week 0 – Ashish’s Security Considerations
 
 
 ## Hands-on
@@ -38,7 +38,16 @@ Follow Ashish's video, you can setup some best practices below:
   - In case you do not know how to use AWS CLI, [this reference](https://docs.aws.amazon.com/cli/latest/) from AWS will help.
     - Ex: aws s3 ls
 
-### 7. Install AWS CLI
+### 5. Generate AWS credentials
+- Go to IAM > Users > [Your user] > `Security credentals` tab > Create access key
+- I create this key to access from my local code, so I choose `Local code`
+- Set a tag
+  ![](img/week0_20230216051657.png)
+- Your scecret access key is only showed one, so you should **Download** it to .csv for later needs. If you loose this file, just go to IAM and create a new one.
+  ![](img/week0_20230216051848.png)
+
+
+### 6. Install AWS CLI
 - Install AWS CLI on my local computer (MacOS)
 ```
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -49,16 +58,21 @@ sudo installer -pkg AWSCLIV2.pkg -target /
 aws --version
 aws-cli/2.9.23 Python/3.9.11 Darwin/22.3.0 exe/x86_64 prompt/off
 ```
-- Go ahead, and configure my aws credential profile for this bootcamp
+- Go ahead, and configure my aws credential profile for this bootcamp (using the Access key and Secret access key retrieved at 5.). Set the --profile will help you switch between profile easier.
 ```
-aws configure
+aws configure --profile bootcamp
 AWS Access Key ID [None]: AIDAWIRQ******
 AWS Secret Access Key [None]: tJBNH*******
 Default region name [None]: ap-northeast-1
 Default output format [None]: json
 ```
 
-### 8. Create a budget, billing Alarm alerts
+- Install AWS Toolkit extension for VSCode. This extension is offical from AWS
+  ![](img/week0_20230216052343.png)
+- After installing, click on the AWS label in the bottom of VSCode, you will see a Switch Connection popup asking you which profile to connect to.
+  ![](img/week0_20230216052652.png)
+
+### 7. Create a budget, billing Alarm alerts
 - Go to your account (top right menu) > Billing Dashboard > Budgets
 - Click `Create budget` button
 - Choose Using a template
