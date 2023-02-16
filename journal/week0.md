@@ -12,7 +12,17 @@ Follow Ashish's video, you can setup some best practices below:
 - [x] Enable MFA for Root account
 - [x] Create an Organization unit
 
-## Homeworks
+## Required Homeworks
+### 1. Recreate Conceptual Diagram in Lucid Charts or on a Napkin
+- The C4 model: C4 = Context + Container + Component + Code. A way to `visualize` software architecture.
+- Ok, here is my Napkin.
+![Logical Architectual Diagram](/journal/Week%200%20—%20Billing%20and%20Architecture/Week%200%20—%20Conceptual%20Diagram.png)
+
+### 2. Recreate Logical Architectual Diagram in Lucid Charts
+
+In this bootcamp, we will implement this architecture
+  - ![Logical Architectual Diagram](/journal/Week%200%20—%20Billing%20and%20Architecture/Week%200%20—%20Billing%20and%20Architecture.png)
+
 ### 3. Create Admin user
 - Go to IAM > Users > Create user
   - Choose [Enable console access], you should use console often.
