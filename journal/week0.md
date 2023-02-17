@@ -20,7 +20,7 @@ Follow Ashish's video, you can setup some best practices below:
 
 ### 2. Recreate Logical Architectual Diagram in Lucid Charts
 
-In this bootcamp, we will implement this architecture
+In this bootcamp, we will implement this architecture. I re-create it using LucidChart.
   - ![Logical Architectual Diagram](/journal/Week%200%20—%20Billing%20and%20Architecture/Week%200%20—%20Billing%20and%20Architecture.png)
 
 ### 3. Create Admin user
@@ -92,7 +92,7 @@ Default output format [None]: json
 ![](img/week0_20230215063944.png)
 - Create 1 custom budget for experimence
   - Choose [Customize] > [Usage budget]
-  - Choost Create alert when using > 80% of the threshold
+  - Choose Create alert when using > 80% of the threshold
   - Ex: you set the usage budget is 2000 Hours for EC2 service, then 80% mean 1600 Hours
 ![](img/week0_20230215064936.png)
 
