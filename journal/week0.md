@@ -13,6 +13,12 @@
   - [Homework challenges](#homework-challenges)
     - [1. Destroy root account credentials, set MFA, IAM role](#1-destroy-root-account-credentials-set-mfa-iam-role)
     - [2. Use EventBridge to alert Health issues.](#2-use-eventbridge-to-alert-health-issues)
+      - [What is an event?](#what-is-an-event)
+      - [What is an Event-driven architecture?](#what-is-an-event-driven-architecture)
+      - [What is the differences between EventBridge \& SQS](#what-is-the-differences-between-eventbridge--sqs)
+      - [Send SNS when there is a service's health issue](#send-sns-when-there-is-a-services-health-issue)
+        - [Prepare SNS topic](#prepare-sns-topic)
+        - [Create Event rule in EventBridge](#create-event-rule-in-eventbridge)
 
 
 ## Materials
@@ -108,7 +114,7 @@ Default output format [None]: json
 
 ## Homework challenges
 - [x] 1. Destroy your root account credentials, Set MFA, IAM role
-- [ ] 2. Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
+- [x] 2. Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 - [ ] 3. Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
 - [ ] 4. Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
 - [ ] 5. Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility.
@@ -152,8 +158,49 @@ Ok. So I do all the recommendations.
 
 EventBridge is a `serverless` service for building `event-driven` applications using events from your applications integrated SaaS applications.
 
-
+#### What is an event?
 - Event is a `record of action`
--
+- Represented as JSON object:
+  - Data from the event
+  - Meta data about the event
+![](img/week0_20230218152208.png)
+
+#### What is an Event-driven architecture?
+Event-driven architectures are an architecture style that can help you boost agility and build reliable, scalable applications.
+
+Serverless services like EventBridge, Step Functions, SQS, SNS, and Lambda have a natural affinity with event-driven architectures - they are invoked by events, emit events, and have built-in capabilities for building with events.
+
+[learn more about Event-driven](https://serverlessland.com)
+
+#### What is the differences between EventBridge & SQS
+
+|**EventBridge**|**SQS**|
+|:---|:---|
+|process **one** at a time| process in **batches**|
+|match multiple rules & send to multiple target|event no longer available after successful processing|
+
+#### Send SNS when there is a service's health issue
+We will create this pattern.
+![](img/week0_20230218161601.png)
+
+##### Prepare SNS topic
+- Go to Amazon SNS > Topics > Create topic
+- We do not care about the ordering of the messages, so just use standard topic
+  ![](img/week0_20230218163450.png)
+- Click [Create topic]
 
 
+##### Create Event rule in EventBridge
+- Go to Amazon EventBridge > Rules > Create rule
+- I am using the default Event bus, type: rule with event pattern (not scheduler)
+- In Sample events, choose [AWS Health Event]
+  ![](img/week0_20230218161909.png)
+- Under **Event pattern**, for **Event source**, choose **AWS services**.
+- Under **Event pattern**, for **AWS service**, choose **Health**. Click [Next]
+  ![](img/week0_20230218162743.png)
+- Select SNS as the target > Next > Create rule
+  ![](img/week0_20230218163631.png)
+
+
+Congratulation! We successfully created a EventBridge rule
+![](img/week0_20230218163916.png)
