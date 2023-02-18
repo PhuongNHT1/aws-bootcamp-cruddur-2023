@@ -1,16 +1,26 @@
 # Week 0 — Billing and Architecture
 
+- [Week 0 — Billing and Architecture](#week-0--billing-and-architecture)
+  - [Materials](#materials)
+  - [Required Homeworks](#required-homeworks)
+    - [1. Recreate Conceptual Diagram in Lucid Charts or on a Napkin](#1-recreate-conceptual-diagram-in-lucid-charts-or-on-a-napkin)
+    - [2. Recreate Logical Architectual Diagram in Lucid Charts](#2-recreate-logical-architectual-diagram-in-lucid-charts)
+    - [3. Create Admin user](#3-create-admin-user)
+    - [4. Using AWS Cloud Shell](#4-using-aws-cloud-shell)
+    - [5. Generate AWS credentials](#5-generate-aws-credentials)
+    - [6. Install AWS CLI](#6-install-aws-cli)
+    - [7. Create a budget, billing Alarm alerts](#7-create-a-budget-billing-alarm-alerts)
+  - [Homework challenges](#homework-challenges)
+    - [1. Destroy root account credentials, set MFA, IAM role](#1-destroy-root-account-credentials-set-mfa-iam-role)
+    - [2. Use EventBridge to alert Health issues.](#2-use-eventbridge-to-alert-health-issues)
+
+
 ## Materials
 
 - [x] Week 0 – Live Streamed Video Session
 - [x] Week 0 – Chirag’s Spend Considerations
 - [x] Week 0 – Ashish’s Security Considerations
 
-
-## Hands-on
-Follow Ashish's video, you can setup some best practices below:
-- [x] Enable MFA for Root account
-- [x] Create an Organization unit
 
 ## Required Homeworks
 ### 1. Recreate Conceptual Diagram in Lucid Charts or on a Napkin
@@ -95,5 +105,55 @@ Default output format [None]: json
   - Choose Create alert when using > 80% of the threshold
   - Ex: you set the usage budget is 2000 Hours for EC2 service, then 80% mean 1600 Hours
 ![](img/week0_20230215064936.png)
+
+## Homework challenges
+- [x] 1. Destroy your root account credentials, Set MFA, IAM role
+- [ ] 2. Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
+- [ ] 3. Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
+- [ ] 4. Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
+- [ ] 5. Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility.
+- [ ] 6. Open a support ticket and request a service limit
+
+### 1. Destroy root account credentials, set MFA, IAM role
+![](img/week0_20230218142150.png)
+
+To enable multi-factor authentication (MFA)
+- Login with your root account
+- Go to Security credentials > Multi-factor authentication > Assign MFA Device
+
+<img src="img/week0_20230218142512.png" width=20%>
+
+- Set up the authenticator app on your device. You can use any authenticator app, such as: Google authentication, Microsoft authenticator,...I am using `Authy` because it allows multi-device.
+- Press Show QR code
+- Scan the QR code by your authenticator app
+- Then fill 2 consecutive codes from the authenticator app
+- Press [Add MFA]
+
+Congratulation, you got your first Green check on the 1st security recommendations.
+
+Secondly, do not create the access keys for root-account.
+Try create some IAM user for this bootcamp
+
+- Go to IAM > Users > Add user
+- I do not add permissions to individual users, I add permissions to group of users. So that, after the bootcamp, I just need to remove the users from the group.
+![](img/week0_20230218144156.png)
+
+Finally, I check the 3rd security recommendations on the Dashboard.
+- ![](img/week0_20230218144317.png)
+- So this announment means aws-portal:* policy will be `deprecated` from July 2023.
+  - The fine-grained actions launch enables customers to provide individuals in their organization access to only services that are necessary for their job. For example, with these new permissions a customer can provide a developer access to Budgets and Cost Explorer, while denying access to Bills or Tax Settings services
+- I go to IAM > Policies to see what went wrong? So I really have a customer managed policy that grant all the billing authentications.
+  ![](img/week0_20230218145311.png)
+- Because I just create this policy for testing customer-managed policy, I will delete it.
+
+Ok. So I do all the recommendations.
+
+### 2. Use EventBridge to alert Health issues.
+
+EventBridge is a `serverless` service for building `event-driven` applications using events from your applications integrated SaaS applications.
+
+
+- Event is a `record of action`
+-
 
 
