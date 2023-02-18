@@ -19,6 +19,8 @@
       - [Send SNS when there is a service's health issue](#send-sns-when-there-is-a-services-health-issue)
         - [Prepare SNS topic](#prepare-sns-topic)
         - [Create Event rule in EventBridge](#create-event-rule-in-eventbridge)
+    - [3. Review all questions of well-architecture framework](#3-review-all-questions-of-well-architecture-framework)
+    - [4. Create the CI/CD logical pipeline](#4-create-the-cicd-logical-pipeline)
     - [5. Research the technical and service limits of AWS Lambda](#5-research-the-technical-and-service-limits-of-aws-lambda)
       - [What is concurrent execution?](#what-is-concurrent-execution)
     - [6. Open a support ticket and request a service limit](#6-open-a-support-ticket-and-request-a-service-limit)
@@ -118,8 +120,8 @@ Default output format [None]: json
 ## Homework challenges
 - [x] 1. Destroy your root account credentials, Set MFA, IAM role
 - [x] 2. Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
-- [ ] 3. Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
-- [ ] 4. Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
+- [x] 3. Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
+- [x] 4. Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
 - [x] 5. Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility.
 - [x] 6. Open a support ticket and request a service limit
 
@@ -207,6 +209,19 @@ We will create this pattern.
 
 Congratulation! We successfully created a EventBridge rule that will send notification when a service's health go wrong.
 ![](img/week0_20230218163916.png)
+
+### 3. Review all questions of well-architecture framework
+- Go to AWS Well-Architected Tool > Define workload
+- Do not apply any lens, except the default one. Choose [Define workload]
+- Click [Start reviewing]
+- Answer all questions for each pillar. Click [Save & exit]
+- Final result 58/58 questions. AWS will show you the number of High and Medium risk.
+
+<img src="img/week0_20230218233716.png" width=40%>
+
+### 4. Create the CI/CD logical pipeline
+Here is my CI/CD for now.
+![CICD](/journal/Week%200%20—%20Billing%20and%20Architecture/CICD.png)
 
 ### 5. Research the technical and service limits of AWS Lambda
 AWS Lambda can not used in any case below:
