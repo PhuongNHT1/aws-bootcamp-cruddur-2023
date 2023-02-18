@@ -19,6 +19,9 @@
       - [Send SNS when there is a service's health issue](#send-sns-when-there-is-a-services-health-issue)
         - [Prepare SNS topic](#prepare-sns-topic)
         - [Create Event rule in EventBridge](#create-event-rule-in-eventbridge)
+    - [5. Research the technical and service limits of AWS Lambda](#5-research-the-technical-and-service-limits-of-aws-lambda)
+      - [What is concurrent execution?](#what-is-concurrent-execution)
+    - [6. Open a support ticket and request a service limit](#6-open-a-support-ticket-and-request-a-service-limit)
 
 
 ## Materials
@@ -117,8 +120,8 @@ Default output format [None]: json
 - [x] 2. Use EventBridge to hookup Health Dashboard to SNS and send notification when there is a service health issue.
 - [ ] 3. Review all the questions of each pillars in the Well Architected Tool (No specialized lens)
 - [ ] 4. Create an architectural diagram (to the best of your ability) the CI/CD logical pipeline in Lucid Charts
-- [ ] 5. Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility.
-- [ ] 6. Open a support ticket and request a service limit
+- [x] 5. Research the technical and service limits of specific services and how they could impact the technical path for technical flexibility.
+- [x] 6. Open a support ticket and request a service limit
 
 ### 1. Destroy root account credentials, set MFA, IAM role
 ![](img/week0_20230218142150.png)
@@ -202,5 +205,35 @@ We will create this pattern.
   ![](img/week0_20230218163631.png)
 
 
-Congratulation! We successfully created a EventBridge rule
+Congratulation! We successfully created a EventBridge rule that will send notification when a service's health go wrong.
 ![](img/week0_20230218163916.png)
+
+### 5. Research the technical and service limits of AWS Lambda
+AWS Lambda can not used in any case below:
+- Process time >= 15min (900s)
+- Memory >=10GB
+- GPU needed
+- Statefull process
+
+This will impact the technical path and technical flexibility. For example, if you have a batch that has processing time more than 900 seconds, it's better to use another services, or run the batch traditional way on an EC2.
+
+Lambda also has a default limit of 1,000 concurrent executions by region. Refer [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) for more limit information. But this can increase to 10,000.
+
+#### What is concurrent execution?
+The number of request that your Lambda function handle at the SAME time.
+![concurrency](https://docs.aws.amazon.com/images/lambda/latest/dg/images/concurrency-5-animation-summary.png)
+
+
+### 6. Open a support ticket and request a service limit
+To increase the concurrent executions by region of AWS Lambda. I will [request a quotas increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html). A little suprise that there are other way to request a service limit beside by opening ticket in AWS Console. You can
+- Using the AWS Manage Console
+- Using AWS CLI or SDK operations
+
+To be more simple, I will use the Console for this homework.
+- Open Service Quotas console at https://console.aws.amazon.com/servicequotas/home
+- Choose ![](img/week0_20230218214909.png)
+- Chose Concurrent executions > [Request quotas increase]
+  ![](img/week0_20230218215945.png)
+- I will request to increase the quotas for this to 1500. Click [Request]
+- Check the request by viewing [Quota request history]
+  ![](img/week0_20230218220215.png)
