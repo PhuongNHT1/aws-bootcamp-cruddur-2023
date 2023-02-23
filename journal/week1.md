@@ -1,6 +1,7 @@
 # Week 1 — App Containerization
 
 - [Week 1 — App Containerization](#week-1--app-containerization)
+  - [Prerequisite Knowledge](#prerequisite-knowledge)
   - [Materials](#materials)
   - [Required Homeworks](#required-homeworks)
     - [1. Containerize Application (Dockerfiles, Docker Compose)](#1-containerize-application-dockerfiles-docker-compose)
@@ -10,13 +11,20 @@
     - [5. Run DynamoDB Local Container and ensure it works](#5-run-dynamodb-local-container-and-ensure-it-works)
     - [6. Run Postgres Container and ensure it works](#6-run-postgres-container-and-ensure-it-works)
 
+## Prerequisite Knowledge
+
+- [x] [Docker in 5 minutes](https://www.youtube.com/watch?v=cxCG0cFgsd4): the shortest and easiest way to get to know Docker
+- [ ] [Adrian Cantrill – Docker Fundamentals (Free)](https://learn.cantrill.io/p/docker-fundamentals)
+- [ ] [Docker Labs for absolute beginner (Free)](https://kodekloud.com/topic/labs-basic-docker-commands-beta/): the playground to play with Docker @ kodekloud
+
 
 ## Materials
 
 - [x] Grading Homework Summaries
 - [ ] Week 1 - Live Streamed Video
 - [x] Chirag's Week 1 - Spending Considerations
-- [ ] Ashish's Week 1 - Container Security Considerations
+- [x] Ashish's Week 1 - Container Security Considerations
+
 
 ## Required Homeworks
 - [ ] 1. Containerize Application (Dockerfiles, Docker Compose)
