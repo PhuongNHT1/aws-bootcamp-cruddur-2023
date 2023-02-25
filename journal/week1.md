@@ -3,6 +3,7 @@
 - [Week 1 — App Containerization](#week-1--app-containerization)
   - [Prerequisite Knowledge](#prerequisite-knowledge)
   - [Materials](#materials)
+  - [More materials](#more-materials)
   - [Required Homeworks](#required-homeworks)
     - [1. Containerize Application (Dockerfiles, Docker Compose)](#1-containerize-application-dockerfiles-docker-compose)
     - [2. Document the Notification Endpoint for the OpenAI Document](#2-document-the-notification-endpoint-for-the-openai-document)
@@ -18,7 +19,7 @@
 - [x] [Docker in 5 minutes](https://www.youtube.com/watch?v=cxCG0cFgsd4): the shortest and easiest way to get to know Docker
 - [ ] [Adrian Cantrill – Docker Fundamentals (Free)](https://learn.cantrill.io/p/docker-fundamentals)
 - [ ] [Docker Labs for absolute beginner (Free)](https://kodekloud.com/topic/labs-basic-docker-commands-beta/): the playground to play with Docker @ kodekloud
-
+- [x] [Everything You Need to Know About OpenAPI 3.0 - Erin McKean](https://www.youtube.com/watch?v=NFI5GTBEb0k): under 10 minutes video form #LeadDev to talk about Swagger -> OpenAPI3.0
 
 ## Materials
 
@@ -27,18 +28,58 @@
 - [x] Chirag's Week 1 - Spending Considerations
 - [x] Ashish's Week 1 - Container Security Considerations
 
+## More materials
+
+- [ ] [Docker best practices for Python Developer](https://testdriven.io/blog/docker-best-practices/)
 
 ## Required Homeworks
-- [ ] 1. Containerize Application (Dockerfiles, Docker Compose)
-- [ ] 2. Document the Notification Endpoint for the OpenAI Document
+- [x] 1. Containerize Application (Dockerfiles, Docker Compose)
+- [ ] 2. Document the Notification Endpoint for the OpenAPI Document
 - [ ] 3. Write a Flask Backend Endpoint for Notifications
 - [ ] 4. Write a React Page for Notifications
 - [ ] 5. Run DynamoDB Local Container and ensure it works
 - [ ] 6. Run Postgres Container and ensure it works
 
 ### 1. Containerize Application (Dockerfiles, Docker Compose)
-
+These are the containers after containerize the application
+![](img/week1_20230224233720.png)
 ### 2. Document the Notification Endpoint for the OpenAI Document
+- Install the OpenAPI extension to VSCode
+  ![](img/week1_20230224234532.png)
+- When I click the `security audit` <img src="img/week1_20230225052528.png" width=5%> on the taskbar. I encounter an error said that, I need a token before auditing.
+  <img src="img/week1_20230225051122.png" width=40%>
+- So I go to [42crunch.com](https://platform.42crunch.com) to create an account
+- At your account name, click Settings > Tokens. Copy the token.
+- Comback to VSCode, choose I already have an account. Then input the [42crunch](https://platform.42crunch.com) url and the IDE tokens.
+- Try audit the .yml file again. There are 2 critical severity, so I need to fix these.
+  ![](img/week1_20230225052850.png)
+- Let me fix the .yml file.
+  - <details>
+    <summary>Line70: schema is not an array, but it contains the 'items' property</summary>
+
+    change type from `object` to `array`.
+
+    ```swagger
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+    ```
+
+    </details>
+  - <details>
+    <summary>Line126: schema is not an array, but it contains the 'items' property</summary>
+
+    change type from `object` to `array`.
+
+    ```swagger
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+    ```
+
+    </details>
 
 ### 3. Write a Flask Backend Endpoint for Notifications
 
@@ -50,12 +91,12 @@
 
 ## Homework Challenges
 ### 1. Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
-My local machine is MacOS. I used homebrew to install docker
+My local machine is MacOS. I used homebrew to install Docker desktop.
 ```
 brew install docker
 ```
 Then, install the Docker extension in VSCode
-![](img/week1_20230224003440.png)
+<img src="img/week1_20230224003440.png" width=50%>
 
 After config the links in docker-compose.yml to local links, I got all the containers running like this.
 ![](img/week1_20230224003212.png)
@@ -66,8 +107,8 @@ version: "3.8"
 services:
   backend-flask:
     environment:
-      FRONTEND_URL: "https://localhost:3000"
-      BACKEND_URL: "https://localhost:4567"
+      FRONTEND_URL: "https://localhost:3000/"
+      BACKEND_URL: "https://localhost:4567/"
     build: ./backend-flask
     ports:
       - "4567:4567"
