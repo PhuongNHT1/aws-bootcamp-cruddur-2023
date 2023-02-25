@@ -91,41 +91,8 @@ Finally, complete integrate the backend to the frontend. Woohoo <3
 
 ### 2. Document the Notification Endpoint for the OpenAI Document
 - Install the OpenAPI extension to VSCode
-  ![](img/week1_20230224234532.png)
-- When I click the `security audit` <img src="img/week1_20230225052528.png" width=5%> on the taskbar. I encounter an error said that, I need a token before auditing.
-  <img src="img/week1_20230225051122.png" width=40%>
-- So I go to [42crunch.com](https://platform.42crunch.com) to create an account
-- At your account name, click Settings > Tokens. Copy the token.
-- Comback to VSCode, choose I already have an account. Then input the [42crunch](https://platform.42crunch.com) url and the IDE tokens.
-- Try audit the .yml file again. There are 2 critical severity, so I need to fix these.
-  ![](img/week1_20230225052850.png)
-- Let me fix the .yml file.
-  - <details>
-    <summary>Line70: schema is not an array, but it contains the 'items' property</summary>
-
-    change type from `object` to `array`.
-
-    ```swagger
-                  schema:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Activity'
-    ```
-
-    </details>
-  - <details>
-    <summary>Line126: schema is not an array, but it contains the 'items' property</summary>
-
-    change type from `object` to `array`.
-
-    ```swagger
-                  schema:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Activity'
-    ```
-
-    </details>
+  <img src="img/week1_20230224234532.png" width=50%>
+- Refer /api/activities to add the api/activities/notifications to .yml file.
 
 ### 3. Write a Flask Backend Endpoint for Notifications
 
