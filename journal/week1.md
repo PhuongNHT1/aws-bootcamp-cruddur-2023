@@ -6,6 +6,9 @@
   - [More materials](#more-materials)
   - [Required Homeworks](#required-homeworks)
     - [1. Containerize Application (Dockerfiles, Docker Compose)](#1-containerize-application-dockerfiles-docker-compose)
+      - [1-1. Fix encoding error in Dockerfile](#1-1-fix-encoding-error-in-dockerfile)
+      - [1-2. Fix CORS error](#1-2-fix-cors-error)
+      - [1-3. Run the CRUDDUR app](#1-3-run-the-cruddur-app)
     - [2. Document the Notification Endpoint for the OpenAI Document](#2-document-the-notification-endpoint-for-the-openai-document)
     - [3. Write a Flask Backend Endpoint for Notifications](#3-write-a-flask-backend-endpoint-for-notifications)
     - [4. Write a React Page for Notifications](#4-write-a-react-page-for-notifications)
@@ -43,6 +46,49 @@
 ### 1. Containerize Application (Dockerfiles, Docker Compose)
 These are the containers after containerize the application
 ![](img/week1_20230224233720.png)
+
+#### 1-1. Fix encoding error in Dockerfile
+When I view container's log, the log's encoding is broken
+<details>
+<summary>Log</summary>
+
+```
+ * Debugger is active!
+ * Debugger PIN: 601-658-487
+172.22.0.1 - - [25/Feb/2023 06:54:06] code 400, message Bad request version ('u°\x9c8#\x93A;s')
+172.22.0.1 - - [25/Feb/2023 06:54:06] "üa¯B1ë~ª.Ý:R
+õÿýOj®¡´å©s ã´ã- {N
+n*Cu°8#A;s" HTTPStatus.BAD_REQUEST -
+172.22.0.1 - - [25/Feb/2023 06:54:06] code 400, message Bad request version ('localhost\x00\x17\x00\x00ÿ\x01\x00\x01\x00\x00')
+172.22.0.1 - - [25/Feb/2023 06:54:06] "ü)!¿@qUçiÎÕe¤rl`³5ç­Y¤ô uHò ýãé(ø1[¾Z'¾­½{-ÞÎ
+                 ,"úúÀ+À/À,À0Ì©Ì¨ÀÀ
+                                        localhostÿ" HTTPStatus.BAD_REQUEST -
+```
+
+</details>
+
+<details>
+<summary>Fix</summary>
+
+
+
+</details>
+
+
+#### 1-2. Fix CORS error
+in `appy.py` replace
+```js
+ resources={r"/api/*": {"origins": "origins"}},
+```
+with this
+```js
+ resources={r"/api/*": {"origins": "*"}},
+```
+
+#### 1-3. Run the CRUDDUR app
+Finally, complete integrate the backend to the frontend. Woohoo <3
+![](img/week1_20230225171446.png)
+
 ### 2. Document the Notification Endpoint for the OpenAI Document
 - Install the OpenAPI extension to VSCode
   ![](img/week1_20230224234532.png)
