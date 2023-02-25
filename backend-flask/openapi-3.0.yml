@@ -69,6 +69,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Activity'
+  /api/activities/notifications:
+    post:
+      description: Return the notifications
+      tags:
+        - activities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                handle:
+                  type: string
+                message:
+                  type: string
+                ttl:
+                  type: string
+      responses:
+        '200':
+          description: Returns a single notification"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
   /api/activities/@{handle}:
     get:
       description: 'Return a feed of activity for a specific user'
@@ -224,6 +251,24 @@ components:
         message:
           type: string
           example: "Who likes pineapple on their pizza?"
+        created_at:
+          type: string
+          example: "2023-02-06T18:11:03+00:00"
+    Notification:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 0056a369-4618-43a4-ad88-e7c371bf5582
+        display_name:
+          type: string
+          example: "Phuong Nguyen"
+        handle:
+          type: string
+          example: "Phuong"
+        message:
+          type: string
+          example: "Cloud Camp is fun. Isn't it?"
         created_at:
           type: string
           example: "2023-02-06T18:11:03+00:00"
