@@ -37,9 +37,9 @@
 
 ## Required Homeworks
 - [x] 1. Containerize Application (Dockerfiles, Docker Compose)
-- [ ] 2. Document the Notification Endpoint for the OpenAPI Document
-- [ ] 3. Write a Flask Backend Endpoint for Notifications
-- [ ] 4. Write a React Page for Notifications
+- [x] 2. Document the Notification Endpoint for the OpenAPI Document
+- [x] 3. Write a Flask Backend Endpoint for Notifications
+- [x] 4. Write a React Page for Notifications
 - [ ] 5. Run DynamoDB Local Container and ensure it works
 - [ ] 6. Run Postgres Container and ensure it works
 
@@ -96,7 +96,20 @@ Finally, complete integrate the backend to the frontend. Woohoo <3
 
 ### 3. Write a Flask Backend Endpoint for Notifications
 
+- Open app.py and add new api/activities/notifications end-point
+```python
+@app.route("/api/activities/notifications", methods=['GET'])
+def data_notification():
+  data = NotificationActivities.run()
+  return data, 200
+```
+- Add `notification_activities.py` by cloning from home_activities.py
+- Check backend endpoint: http://localhost:4567/api/activities/notifications
+![](img/week1_20230227060721.png)
+
+
 ### 4. Write a React Page for Notifications
+- I do not know React, so I will study the src code a little bit. So the entrance (frontend endpoint) is `index.js`.
 
 ### 5. Run DynamoDB Local Container and ensure it works
 
@@ -122,6 +135,9 @@ services:
     environment:
       FRONTEND_URL: "http://localhost:3000/"
       BACKEND_URL: "http://localhost:4567/"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
+      OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
+      OTEL_SERVICE_NAME: "${HONEYCOMB_SERVICE_NAME}"
     build: ./backend-flask
     ports:
       - "4567:4567"
