@@ -110,6 +110,17 @@ def data_notification():
 
 ### 4. Write a React Page for Notifications
 - I do not know React, so I will study the src code a little bit. So the entrance (frontend endpoint) is `index.js`.
+- In index.js, it load ./App, so React use App.js as a Router. Let add 1 more route
+```js
+  {
+    path: "/notifications",
+    element: <NotificationFeedPage />
+  },
+```
+- Let create `NotificationFeedPage` cloning from `HomeFeedPage`. Let see if it work?
+![](img/week1_20230227063052.png)
+
+Too good to be true. Let's commit the code.
 
 ### 5. Run DynamoDB Local Container and ensure it works
 
