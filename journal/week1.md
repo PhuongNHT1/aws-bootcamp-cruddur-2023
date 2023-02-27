@@ -34,14 +34,15 @@
 ## More materials
 
 - [ ] [Docker best practices for Python Developer](https://testdriven.io/blog/docker-best-practices/)
+- [x] [Challenge Dynamodb Local](https://github.com/100DaysOfCloud/challenge-dynamodb-local)
 
 ## Required Homeworks
 - [x] 1. Containerize Application (Dockerfiles, Docker Compose)
-- [ ] 2. Document the Notification Endpoint for the OpenAPI Document
-- [ ] 3. Write a Flask Backend Endpoint for Notifications
-- [ ] 4. Write a React Page for Notifications
-- [ ] 5. Run DynamoDB Local Container and ensure it works
-- [ ] 6. Run Postgres Container and ensure it works
+- [x] 2. Document the Notification Endpoint for the OpenAPI Document
+- [x] 3. Write a Flask Backend Endpoint for Notifications
+- [x] 4. Write a React Page for Notifications
+- [x] 5. Run DynamoDB Local Container and ensure it works
+- [x] 6. Run Postgres Container and ensure it works
 
 ### 1. Containerize Application (Dockerfiles, Docker Compose)
 These are the containers after containerize the application
@@ -91,49 +92,56 @@ Finally, complete integrate the backend to the frontend. Woohoo <3
 
 ### 2. Document the Notification Endpoint for the OpenAI Document
 - Install the OpenAPI extension to VSCode
-  ![](img/week1_20230224234532.png)
-- When I click the `security audit` <img src="img/week1_20230225052528.png" width=5%> on the taskbar. I encounter an error said that, I need a token before auditing.
-  <img src="img/week1_20230225051122.png" width=40%>
-- So I go to [42crunch.com](https://platform.42crunch.com) to create an account
-- At your account name, click Settings > Tokens. Copy the token.
-- Comback to VSCode, choose I already have an account. Then input the [42crunch](https://platform.42crunch.com) url and the IDE tokens.
-- Try audit the .yml file again. There are 2 critical severity, so I need to fix these.
-  ![](img/week1_20230225052850.png)
-- Let me fix the .yml file.
-  - <details>
-    <summary>Line70: schema is not an array, but it contains the 'items' property</summary>
-
-    change type from `object` to `array`.
-
-    ```swagger
-                  schema:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Activity'
-    ```
-
-    </details>
-  - <details>
-    <summary>Line126: schema is not an array, but it contains the 'items' property</summary>
-
-    change type from `object` to `array`.
-
-    ```swagger
-                  schema:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Activity'
-    ```
-
-    </details>
+  <img src="img/week1_20230224234532.png" width=50%>
+- Refer /api/activities to add the api/activities/notifications to .yml file.
 
 ### 3. Write a Flask Backend Endpoint for Notifications
 
+- Open app.py and add new api/activities/notifications end-point
+```python
+@app.route("/api/activities/notifications", methods=['GET'])
+def data_notification():
+  data = NotificationActivities.run()
+  return data, 200
+```
+- Add `notification_activities.py` by cloning from home_activities.py
+- Check backend endpoint: http://localhost:4567/api/activities/notifications
+![](img/week1_20230227060721.png)
+
+
 ### 4. Write a React Page for Notifications
+- I do not know React, so I will study the src code a little bit. So the entrance (frontend endpoint) is `index.js`.
+- In index.js, it load ./App, so React use App.js as a Router. Let add 1 more route
+```js
+  {
+    path: "/notifications",
+    element: <NotificationFeedPage />
+  },
+```
+- Let create `NotificationFeedPage` cloning from `HomeFeedPage`. Let see if it work?
+![](img/week1_20230227063052.png)
+
+Too good to be true. Let's commit the code.
 
 ### 5. Run DynamoDB Local Container and ensure it works
+- do docker-compose up
+![](img/week1_20230228054233.png)
+- test the dynamodb. it works!
+![](img/week1_20230228054947.png)
 
 ### 6. Run Postgres Container and ensure it works
+- I did compose Postgres with DynamoDB at step5, so my postgres is running at port 5432.
+  ![](img/week1_20230228055154.png)
+- Install postgres extension for my VSCode.
+  <img src='img/week1_20230228062757.png' width=40%>
+- Install psql on MacOS
+```
+brew install libpq
+brew link --force libpq
+```
+- Let me see if it works or not?
+  ![](img/week1_20230228063825.png)
+
 
 ## Homework Challenges
 ### 1. Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
@@ -147,32 +155,7 @@ Then, install the Docker extension in VSCode
 After config the links in docker-compose.yml to local links, I got all the containers running like this.
 ![](img/week1_20230224003212.png)
 
-Here is my configured docker-compose.yml
-```yml
-version: "3.8"
-services:
-  backend-flask:
-    environment:
-      FRONTEND_URL: "http://localhost:3000/"
-      BACKEND_URL: "http://localhost:4567/"
-    build: ./backend-flask
-    ports:
-      - "4567:4567"
-    volumes:
-      - ./backend-flask:/backend-flask
-  frontend-react-js:
-    environment:
-      REACT_APP_BACKEND_URL: "http://localhost:4567"
-    build: ./frontend-react-js
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend-react-js:/frontend-react-js
+Here is my full configured docker-compose: ./docker-compose-local.yml
 
-# the name flag is a hack to change the default prepend folder
-# name when outputting the image names
-networks:
-  internal-network:
-    driver: bridge
-    name: cruddur
-```
+
+I will get back to this homework challenges later.
