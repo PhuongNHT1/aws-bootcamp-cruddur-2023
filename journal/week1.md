@@ -16,8 +16,6 @@
     - [6. Run Postgres Container and ensure it works](#6-run-postgres-container-and-ensure-it-works)
   - [Homework Challenges](#homework-challenges)
     - [1. Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces](#1-learn-how-to-install-docker-on-your-localmachine-and-get-the-same-containers-running-outside-of-gitpod--codespaces)
-- [the name flag is a hack to change the default prepend folder](#the-name-flag-is-a-hack-to-change-the-default-prepend-folder)
-- [name when outputting the image names](#name-when-outputting-the-image-names)
 
 ## Prerequisite Knowledge
 
@@ -36,7 +34,7 @@
 ## More materials
 
 - [ ] [Docker best practices for Python Developer](https://testdriven.io/blog/docker-best-practices/)
-- [ ] [Challenge Dynamodb Local](https://github.com/100DaysOfCloud/challenge-dynamodb-local)
+- [x] [Challenge Dynamodb Local](https://github.com/100DaysOfCloud/challenge-dynamodb-local)
 
 ## Required Homeworks
 - [x] 1. Containerize Application (Dockerfiles, Docker Compose)
@@ -134,9 +132,15 @@ Too good to be true. Let's commit the code.
 ### 6. Run Postgres Container and ensure it works
 - I did compose Postgres with DynamoDB at step5, so my postgres is running at port 5432.
   ![](img/week1_20230228055154.png)
-- Install postgres extension for my VSCode. I pick this because it's from Microsoft.
-  <img src='img/week1_20230228060905.png' width=40%>
+- Install postgres extension for my VSCode.
+  <img src='img/week1_20230228062757.png' width=40%>
+- Install psql on MacOS
+```
+brew install libpq
+brew link --force libpq
+```
 - Let me see if it works or not?
+  ![](img/week1_20230228063825.png)
 
 
 ## Homework Challenges
@@ -151,66 +155,7 @@ Then, install the Docker extension in VSCode
 After config the links in docker-compose.yml to local links, I got all the containers running like this.
 ![](img/week1_20230224003212.png)
 
-Here is my full configured docker-compose.yml
-<details><summary>docker-compose.yml</summary>
+Here is my full configured docker-compose: ./docker-compose-local.yml
 
-```yml
-version: "3.8"
-services:
-  backend-flask:
-    environment:
-      FRONTEND_URL: "http://localhost:3000/"
-      BACKEND_URL: "http://localhost:4567/"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
-      OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
-      OTEL_SERVICE_NAME: "${HONEYCOMB_SERVICE_NAME}"
-    build: ./backend-flask
-    ports:
-      - "4567:4567"
-    volumes:
-      - ./backend-flask:/backend-flask
-    links:
-      - db
-  frontend-react-js:
-    environment:
-      REACT_APP_BACKEND_URL: "http://localhost:4567"
-    build: ./frontend-react-js
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend-react-js:/frontend-react-js
-  db:
-    image: postgres:13-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    ports:
-      - '5432:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
-  dynamodb-local:
-    # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
-    # We needed to add user:root to get this working.
-    user: root
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
-    image: "amazon/dynamodb-local:latest"
-    container_name: dynamodb-local
-    ports:
-      - "8000:8000"
-    volumes:
-      - "./docker/dynamodb:/home/dynamodblocal/data"
-    working_dir: /home/dynamodblocal
 
-volumes:
-  db:
-    driver: local
-
-# the name flag is a hack to change the default prepend folder
-# name when outputting the image names
-networks:
-  internal-network:
-    driver: bridge
-    name: cruddur
-
-</details>
+I will get back to this homework challenges later.
