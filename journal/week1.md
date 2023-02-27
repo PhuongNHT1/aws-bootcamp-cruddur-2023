@@ -16,6 +16,8 @@
     - [6. Run Postgres Container and ensure it works](#6-run-postgres-container-and-ensure-it-works)
   - [Homework Challenges](#homework-challenges)
     - [1. Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces](#1-learn-how-to-install-docker-on-your-localmachine-and-get-the-same-containers-running-outside-of-gitpod--codespaces)
+- [the name flag is a hack to change the default prepend folder](#the-name-flag-is-a-hack-to-change-the-default-prepend-folder)
+- [name when outputting the image names](#name-when-outputting-the-image-names)
 
 ## Prerequisite Knowledge
 
@@ -34,14 +36,15 @@
 ## More materials
 
 - [ ] [Docker best practices for Python Developer](https://testdriven.io/blog/docker-best-practices/)
+- [ ] [Challenge Dynamodb Local](https://github.com/100DaysOfCloud/challenge-dynamodb-local)
 
 ## Required Homeworks
 - [x] 1. Containerize Application (Dockerfiles, Docker Compose)
 - [x] 2. Document the Notification Endpoint for the OpenAPI Document
 - [x] 3. Write a Flask Backend Endpoint for Notifications
 - [x] 4. Write a React Page for Notifications
-- [ ] 5. Run DynamoDB Local Container and ensure it works
-- [ ] 6. Run Postgres Container and ensure it works
+- [x] 5. Run DynamoDB Local Container and ensure it works
+- [x] 6. Run Postgres Container and ensure it works
 
 ### 1. Containerize Application (Dockerfiles, Docker Compose)
 These are the containers after containerize the application
@@ -123,8 +126,18 @@ def data_notification():
 Too good to be true. Let's commit the code.
 
 ### 5. Run DynamoDB Local Container and ensure it works
+- do docker-compose up
+![](img/week1_20230228054233.png)
+- test the dynamodb. it works!
+![](img/week1_20230228054947.png)
 
 ### 6. Run Postgres Container and ensure it works
+- I did compose Postgres with DynamoDB at step5, so my postgres is running at port 5432.
+  ![](img/week1_20230228055154.png)
+- Install postgres extension for my VSCode. I pick this because it's from Microsoft.
+  <img src='img/week1_20230228060905.png' width=40%>
+- Let me see if it works or not?
+
 
 ## Homework Challenges
 ### 1. Learn how to install Docker on your localmachine and get the same containers running outside of Gitpod / Codespaces
@@ -138,7 +151,9 @@ Then, install the Docker extension in VSCode
 After config the links in docker-compose.yml to local links, I got all the containers running like this.
 ![](img/week1_20230224003212.png)
 
-Here is my configured docker-compose.yml
+Here is my full configured docker-compose.yml
+<details><summary>docker-compose.yml</summary>
+
 ```yml
 version: "3.8"
 services:
@@ -154,6 +169,8 @@ services:
       - "4567:4567"
     volumes:
       - ./backend-flask:/backend-flask
+    links:
+      - db
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "http://localhost:4567"
@@ -162,6 +179,32 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend-react-js:/frontend-react-js
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  dynamodb-local:
+    # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
+    # We needed to add user:root to get this working.
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+
+volumes:
+  db:
+    driver: local
 
 # the name flag is a hack to change the default prepend folder
 # name when outputting the image names
@@ -169,4 +212,5 @@ networks:
   internal-network:
     driver: bridge
     name: cruddur
-```
+
+</details>
